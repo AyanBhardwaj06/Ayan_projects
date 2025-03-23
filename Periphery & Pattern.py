@@ -33,9 +33,11 @@ def generate_grid(row, col, red, green, blue, periphery_order, pattern_length, p
         for r in row_positions:
             if applied_patterns >= max_patterns_count:
                 break
-            for start_col in range(0, col, pattern_length):
+            col_positions = list(range(0, col - pattern_length + 1))
+            random.shuffle(col_positions)
+            for start_col in col_positions:
                 end_col = start_col + pattern_length
-                if end_col > col or applied_patterns >= max_patterns_count:
+                if applied_patterns >= max_patterns_count:
                     break
                 if all(grid[r][c] == ' ' for c in range(start_col, end_col)):
                     for i, color in enumerate(pattern):
@@ -63,7 +65,9 @@ def generate_grid(row, col, red, green, blue, periphery_order, pattern_length, p
     patterns_applied = fill_with_patterns(grid, pattern, max_patterns_count(color_counts, pattern))
     fill_remaining(grid, color_counts)
 
-    return grid, patterns_applied
+    print(f"\nTotal patterns applied: {patterns_applied}")
+
+    return grid
 
 # Input handling
 row = int(input("Enter number of rows: "))
@@ -76,10 +80,4 @@ periphery_order = input("Enter the order of periphery colors (space-separated, e
 pattern_length = int(input("Enter the number of tiles for the pattern: "))
 pattern = input(f"Enter the pattern of {pattern_length} tiles (e.g., RRGB): ").strip().upper()
 
-grid, patterns_applied = generate_grid(row, col, red, green, blue, periphery_order, pattern_length, pattern)
-if isinstance(grid, str):
-    print(grid)
-else:
-    for r in grid:
-        print(' '.join(r))
-    print(f"\nTotal patterns applied: {patterns_applied}")
+generate_grid(row, col, red, green, blue, periphery_order, pattern_length, pattern)
