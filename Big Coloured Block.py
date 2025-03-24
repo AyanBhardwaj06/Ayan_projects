@@ -3,13 +3,13 @@ def generate_grid(row, col, red, green, blue, block_color, block_size, block_cou
     color_counts = {'R': red, 'G': green, 'B': blue}
     max_possible_blocks = min(block_count, color_counts.get(block_color, 0) // (block_size ** 2))
     placed_blocks = 0
-    available_rows = list(range(1, row - block_size))
+    available_rows = list(range(0, row - block_size+1))
     random.shuffle(available_rows)
     
     for row_index in available_rows:
         if placed_blocks >= max_possible_blocks:
             break
-        available_cols = list(range(1, col - block_size))
+        available_cols = list(range(0, col - block_size+1))
         random.shuffle(available_cols)
         for col_index in available_cols:
             if placed_blocks >= max_possible_blocks:
