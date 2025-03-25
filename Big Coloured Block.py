@@ -1,15 +1,15 @@
-def generate_grid(row, col, red, green, blue, block_color, block_size, block_count):
-    grid = [[' ' for _ in range(col)] for _ in range(row)]
+def generate_grid(n, m, red, green, blue, block_color, block_size, block_count):
+    grid = [[' ' for _ in range(m)] for _ in range(n)]
     color_counts = {'R': red, 'G': green, 'B': blue}
     max_possible_blocks = min(block_count, color_counts.get(block_color, 0) // (block_size ** 2))
     placed_blocks = 0
-    available_rows = list(range(0, row - block_size+1))
+    available_rows = list(range(0, n - block_size+1))
     random.shuffle(available_rows)
     
     for row_index in available_rows:
         if placed_blocks >= max_possible_blocks:
             break
-        available_cols = list(range(0, col - block_size+1))
+        available_cols = list(range(0, m - block_size+1))
         random.shuffle(available_cols)
         for col_index in available_cols:
             if placed_blocks >= max_possible_blocks:
@@ -24,7 +24,7 @@ def generate_grid(row, col, red, green, blue, block_color, block_size, block_cou
     if placed_blocks < block_count:
         print(f"Warning: Could only place {placed_blocks} out of {block_count} blocks.")
 
-    empty_positions = [(r, c) for r in range(row) for c in range(col) if grid[r][c] == ' ']
+    empty_positions = [(r, c) for r in range(n) for c in range(m) if grid[r][c] == ' ']
     random.shuffle(empty_positions)
 
     for r, c in empty_positions:
@@ -50,5 +50,4 @@ grid = generate_grid(row, col, red, green, blue, block_color, block_size, block_
 print("\nGenerated Grid:")
 for row in grid:
     print(" ".join(row))
-
 
